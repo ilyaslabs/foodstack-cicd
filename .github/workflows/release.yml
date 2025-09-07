@@ -30,6 +30,12 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
+      - name: Verify GPG setup
+        run: |
+          echo "Verifying GPG configuration..."
+          gpg --list-secret-keys --keyid-format LONG
+          echo "GPG version:"
+          gpg --version | head -1
       - name: Deploy to Maven Central
         run: mvn clean deploy -B -U -DskipTests -Drevision=${VERSION}
         env:
